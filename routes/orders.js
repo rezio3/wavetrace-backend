@@ -30,9 +30,9 @@ router.post("/", async (req, res) => {
     const sendSmtpEmail = {
       sender: {
         email: process.env.BREVO_SENDER_EMAIL,
-        name: "WaveTrace Admin",
+        name: "WaveTrace Order",
       },
-      to: [{ email: process.env.BREVO_SENDER_EMAIL, name: "WaveTrace Admin" }],
+      to: [{ email: process.env.BREVO_SENDER_EMAIL, name: "WaveTrace Order" }],
       subject: "New request from Wavetrace",
       textContent: `You have a request from Wavetrace!\nFrom: ${email}\nMessage: ${message}`,
     };
@@ -49,6 +49,8 @@ router.post("/", async (req, res) => {
 });
 
 export default router;
+
+// OGARNĄĆ TO ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
 
 // Podsumowując
 
