@@ -21,7 +21,6 @@ Backend for handling Wavetrace orders. Stores orders in MongoDB and sends email 
    BREVO_SENDER_EMAIL=<Your verified sender email>
    ```
 4. Run
-
-```bash
-npm start
-```
+   ```bash
+   npm start
+   ```
