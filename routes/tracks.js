@@ -12,9 +12,28 @@ router.get("/", async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    const totalCount = await tracksCollection.countDocuments();
+    const search = req.query.search?.trim();
+    const filterType = req.query.filter?.trim();
+
+    let filter = {};
+
+    if (search) {
+      const regex = new RegExp(search, "i");
+      filter = {
+        $or: [
+          { title: regex },
+          { description: regex },
+          { tags: regex },
+          { type: regex },
+        ],
+      };
+    } else if (filterType) {
+      filter = { type: { $regex: new RegExp(filterType, "i") } };
+    }
+
+    const totalCount = await tracksCollection.countDocuments(filter);
     const tracks = await tracksCollection
-      .find()
+      .find(filter)
       .skip(skip)
       .limit(limit)
       .toArray();
