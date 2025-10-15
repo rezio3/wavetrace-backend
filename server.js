@@ -4,6 +4,7 @@ import { connectDB } from "./db/mongoClient.js";
 import tracksRouter from "./routes/tracks.js";
 import ordersRouter from "./routes/orders.js";
 import collaborationRouter from "./routes/collaboration.js";
+import stripePaymentRouter from "./routes/stripePayment.js";
 
 const app = express();
 
@@ -17,6 +18,7 @@ connectDB().catch((err) => console.error("❌ Błąd połączenia z MongoDB:", e
 app.use("/api/tracks", tracksRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/collaboration", collaborationRouter);
+app.use("/api/stripe", stripePaymentRouter);
 
 // Start serwera
 const PORT = process.env.PORT || 5000;
