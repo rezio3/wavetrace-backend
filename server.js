@@ -6,6 +6,7 @@ import messageRouter from "./routes/message.js";
 import collaborationRouter from "./routes/collaboration.js";
 import stripePaymentRouter from "./routes/stripePayment.js";
 import stripeWebhook from "./routes/stripeWebhook.js";
+import editRequestRouter from "./routes/editRequest.js";
 
 const app = express();
 
@@ -20,6 +21,7 @@ connectDB().catch((err) => console.error("❌ Błąd połączenia z MongoDB:", e
 // Użyj routerów
 app.use("/api/tracks", tracksRouter);
 app.use("/api/message", messageRouter);
+app.use("/api/edit-request", editRequestRouter);
 app.use("/api/collaboration", collaborationRouter);
 app.use("/api/stripe", stripePaymentRouter);
 
