@@ -38,11 +38,22 @@ router.get("/", async (req, res) => {
       .limit(limit)
       .toArray();
 
+    // catch music without download link
+    tracks.filter((track) => {
+      if (!track.hasOwnProperty("hQUrl") || !track.hQUrl) {
+        console.log(`Track without hQUrl:, ${track.title}
+          Id: ${track._id}`);
+      }
+    });
+
+    // vvvvvvv field hQUrl to full version music vvvvvvv DO NOT SEND IT TO FRONT
+    const safeTracks = tracks.map(({ hQUrl, ...rest }) => rest);
+
     res.json({
       totalCount,
       totalPages: Math.ceil(totalCount / limit),
       currentPage: page,
-      tracks,
+      tracks: safeTracks,
     });
   } catch (err) {
     console.error(err);
