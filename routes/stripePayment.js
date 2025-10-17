@@ -50,6 +50,7 @@ router.post("/checkout-session", async (req, res) => {
       metadata: {
         title: track.title,
         artist: track.artist,
+        hQUrl: track.hQUrl,
       },
       success_url: "http://localhost:5173/success", // zamień na front
       cancel_url: "http://localhost:5173/cancel",

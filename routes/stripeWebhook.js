@@ -1,9 +1,16 @@
 import express from "express";
 import Stripe from "stripe";
 import { getDB } from "../db/mongoClient.js";
+import SibApiV3Sdk from "@sendinblue/client";
 
 const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+const brevoApi = new SibApiV3Sdk.TransactionalEmailsApi();
+brevoApi.setApiKey(
+  SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey,
+  process.env.BREVO_API_KEY
+);
 
 router.post(
   "/stripe-webhook",
@@ -24,6 +31,7 @@ router.post(
         const db = getDB();
         const salesCollection = db.collection("wavetrace-sale");
 
+        // Save sale to data base
         await salesCollection.insertOne({
           title: session.metadata.title,
           artist: session.metadata.artist,
@@ -33,6 +41,28 @@ router.post(
         });
 
         console.log("💾 Zapisano nową sprzedaż:", session.metadata.title);
+      }
+
+      const sendSmtpEmail = {
+        sender: {
+          email: process.env.BREVO_SENDER_EMAIL,
+          name: "WaveTrace",
+        },
+        to: [
+          {
+            email: session.customer_email,
+            name: "Customer",
+          },
+        ],
+        subject: `Your purchase: ${session.metadata.title}`,
+        textContent: `Thank you for your purchase!\n\nYou can download your track here:\n${session.metadata.hQUrl}\n\nBest regards,\nWaveTrace`,
+      };
+
+      try {
+        await brevoApi.sendTransacEmail(sendSmtpEmail);
+        console.log("📧 Email wysłany do:", session.customer_email);
+      } catch (emailErr) {
+        console.error("❌ Błąd wysyłki maila:", emailErr);
       }
 
       res.status(200).send("ok");
