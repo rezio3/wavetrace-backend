@@ -5,6 +5,7 @@ import tracksRouter from "./routes/tracks.js";
 import ordersRouter from "./routes/orders.js";
 import collaborationRouter from "./routes/collaboration.js";
 import stripePaymentRouter from "./routes/stripePayment.js";
+import stripeWebhook from "./routes/stripeWebhook.js";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use("/api/tracks", tracksRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/collaboration", collaborationRouter);
 app.use("/api/stripe", stripePaymentRouter);
+app.use("/", stripeWebhook);
 
 // Start serwera
 const PORT = process.env.PORT || 5000;
