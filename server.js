@@ -10,6 +10,8 @@ import stripeWebhook from "./routes/stripeWebhook.js";
 const app = express();
 
 app.use(cors());
+
+app.use("/", stripeWebhook);
 app.use(express.json());
 
 // Połącz z bazą danych
@@ -20,7 +22,6 @@ app.use("/api/tracks", tracksRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/collaboration", collaborationRouter);
 app.use("/api/stripe", stripePaymentRouter);
-app.use("/", stripeWebhook);
 
 // Start serwera
 const PORT = process.env.PORT || 5000;
