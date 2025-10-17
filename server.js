@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import { connectDB } from "./db/mongoClient.js";
 import tracksRouter from "./routes/tracks.js";
-import ordersRouter from "./routes/orders.js";
+import messageRouter from "./routes/message.js";
 import collaborationRouter from "./routes/collaboration.js";
 import stripePaymentRouter from "./routes/stripePayment.js";
 import stripeWebhook from "./routes/stripeWebhook.js";
@@ -19,7 +19,7 @@ connectDB().catch((err) => console.error("❌ Błąd połączenia z MongoDB:", e
 
 // Użyj routerów
 app.use("/api/tracks", tracksRouter);
-app.use("/api/orders", ordersRouter);
+app.use("/api/message", messageRouter);
 app.use("/api/collaboration", collaborationRouter);
 app.use("/api/stripe", stripePaymentRouter);
 

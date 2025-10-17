@@ -22,29 +22,31 @@ router.post("/", async (req, res) => {
 
     // Zapis do MongoDB
     const db = getDB();
-    const ordersCollection = db.collection("wavetrace-orders");
-    const newOrder = { email, message, createdAt: new Date() };
-    const result = await ordersCollection.insertOne(newOrder);
+    const messagesCollection = db.collection("wavetrace-messages");
+    const newMessage = { email, message, createdAt: new Date() };
+    const result = await messagesCollection.insertOne(newMessage);
 
     // Wysyłka maila
     const sendSmtpEmail = {
       sender: {
         email: process.env.BREVO_SENDER_EMAIL,
-        name: "WaveTrace Order",
+        name: "WaveTrace Message",
       },
-      to: [{ email: process.env.BREVO_SENDER_EMAIL, name: "WaveTrace Order" }],
-      subject: "New request from Wavetrace",
-      textContent: `You have a request from Wavetrace!\nFrom: ${email}\nMessage: ${message}`,
+      to: [
+        { email: process.env.BREVO_SENDER_EMAIL, name: "WaveTrace Message" },
+      ],
+      subject: "New message from Wavetrace",
+      textContent: `You have a message from Wavetrace!\nFrom: ${email}\nMessage: ${message}`,
     };
 
     await brevoApi.sendTransacEmail(sendSmtpEmail);
 
-    res.status(201).json({ success: true, orderId: result.insertedId });
+    res.status(201).json({ success: true, messageId: result.insertedId });
   } catch (err) {
     console.error(err);
     res
       .status(500)
-      .json({ error: "Error saving order or sending email", details: err });
+      .json({ error: "Error saving message or sending email", details: err });
   }
 });
 
