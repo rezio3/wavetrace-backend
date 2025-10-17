@@ -41,28 +41,28 @@ router.post(
         });
 
         console.log("💾 Zapisano nową sprzedaż:", session.metadata.title);
-      }
 
-      const sendSmtpEmail = {
-        sender: {
-          email: process.env.BREVO_SENDER_EMAIL,
-          name: "WaveTrace",
-        },
-        to: [
-          {
-            email: session.customer_email,
-            name: "Customer",
+        const sendSmtpEmail = {
+          sender: {
+            email: process.env.BREVO_SENDER_EMAIL,
+            name: "WaveTrace",
           },
-        ],
-        subject: `Your purchase: ${session.metadata.title}`,
-        textContent: `Thank you for your purchase!\n\nYou can download your track here:\n${session.metadata.hQUrl}\n\nBest regards,\nWaveTrace`,
-      };
+          to: [
+            {
+              email: session.customer_email,
+              name: "Customer",
+            },
+          ],
+          subject: `Your purchase: ${session.metadata.title}`,
+          textContent: `Thank you for your purchase!\n\nYou can download your track here:\n${session.metadata.hQUrl}\n\nBest regards,\nWaveTrace`,
+        };
 
-      try {
-        await brevoApi.sendTransacEmail(sendSmtpEmail);
-        console.log("📧 Email wysłany do:", session.customer_email);
-      } catch (emailErr) {
-        console.error("❌ Błąd wysyłki maila:", emailErr);
+        try {
+          await brevoApi.sendTransacEmail(sendSmtpEmail);
+          console.log("📧 Email wysłany do:", session.customer_email);
+        } catch (emailErr) {
+          console.error("❌ Błąd wysyłki maila:", emailErr);
+        }
       }
 
       res.status(200).send("ok");
