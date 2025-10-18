@@ -52,8 +52,8 @@ router.post("/checkout-session", async (req, res) => {
         artist: track.artist,
         hQUrl: track.hQUrl,
       },
-      success_url: "http://localhost:5173/success", // zamień na front
-      cancel_url: "http://localhost:5173/cancel",
+      success_url: "https://wavetrace.net/success", // zamień na front
+      cancel_url: "https://wavetrace.net/cancel",
     });
 
     return res.json({ url: session.url });
