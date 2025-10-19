@@ -25,6 +25,7 @@ router.get("/", async (req, res) => {
           { description: regex },
           { tags: regex },
           { type: regex },
+          { artist: regex },
         ],
       };
     } else if (filterType) {
@@ -34,10 +35,10 @@ router.get("/", async (req, res) => {
     const totalCount = await tracksCollection.countDocuments(filter);
     const tracks = await tracksCollection
       .find(filter)
+      .sort({ title: 1 }) // sort tracks alphabetically by title
       .skip(skip)
       .limit(limit)
       .toArray();
-
     // catch music without download link
     tracks.filter((track) => {
       if (!track.hasOwnProperty("hQUrl") || !track.hQUrl) {
