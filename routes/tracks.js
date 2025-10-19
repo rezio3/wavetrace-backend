@@ -35,7 +35,7 @@ router.get("/", async (req, res) => {
     const totalCount = await tracksCollection.countDocuments(filter);
     const tracks = await tracksCollection
       .find(filter)
-      .sort({ title: 1 }) // sort tracks alphabetically by title
+      // .sort({ title: 1 }) // sort tracks alphabetically by title
       .skip(skip)
       .limit(limit)
       .toArray();
