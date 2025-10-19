@@ -54,7 +54,9 @@ router.post(
             },
           ],
           subject: `Your purchase: ${session.metadata.title}`,
-          textContent: `Thank you for your purchase!\n\nYou can download your track here:\n${session.metadata.hQUrl}\n\nBest regards,\nWaveTrace`,
+          textContent: `Thank you for your purchase!\n\nYou can download your track here:\n${
+            /* session.metadata.hQUrl */ "*LINK*"
+          }\n\nBest regards,\nWaveTrace`,
         };
 
         try {
