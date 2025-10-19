@@ -52,7 +52,9 @@ router.post("/checkout-session", async (req, res) => {
         artist: track.artist,
         hQUrl: track.hQUrl,
       },
-      success_url: "https://wavetrace.net/success",
+      success_url: `https://wavetrace.net/success?email=${encodeURIComponent(
+        email
+      )}&title=${encodeURIComponent(track.title)}`,
       cancel_url: "https://wavetrace.net/cancel",
     });
 
