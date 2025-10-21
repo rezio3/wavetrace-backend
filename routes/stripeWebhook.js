@@ -2,7 +2,7 @@ import express from "express";
 import Stripe from "stripe";
 import { getDB } from "../db/mongoClient.js";
 import SibApiV3Sdk from "@sendinblue/client";
-import { generateSoldPdf } from "../musicLicense/licenseGenerator.js";
+import { generateLicensePdf } from "../musicLicense/licenseGenerator.js";
 
 const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
