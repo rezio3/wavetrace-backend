@@ -32,6 +32,7 @@ router.post(
         const salesCollection = db.collection("wavetrace-sale");
 
         // Save sale to data base
+        // upsert except insertOne
         await salesCollection.insertOne({
           title: session.metadata.title,
           artist: session.metadata.artist,
@@ -42,7 +43,7 @@ router.post(
 
         console.log("💾 Zapisano nową sprzedaż:", session.metadata.title);
 
-        const sendSmtpEmail = {
+        const sendToCustomer = {
           sender: {
             email: process.env.BREVO_SENDER_EMAIL,
             name: "WaveTrace",
@@ -59,9 +60,28 @@ router.post(
           }\n\nBest regards,\nWaveTrace`,
         };
 
+        const sendToOwner = {
+          sender: {
+            email: process.env.BREVO_SENDER_EMAIL,
+            name: "WaveTrace Sale",
+          },
+          to: [
+            {
+              email: "wavetrace.music@gmail.com",
+              name: "WaveTrace Sale",
+            },
+          ],
+          subject: `Track sold: ${session.metadata.title}`,
+          textContent: `A product was sold!\n\nTitle: ${session.metadata.title}\nArtist: ${session.metadata.artist}\nCustomer email: ${session.customer_email}`,
+        };
         try {
-          await brevoApi.sendTransacEmail(sendSmtpEmail);
-          console.log("📧 Email wysłany do:", session.customer_email);
+          await brevoApi.sendTransacEmail(sendToCustomer);
+          console.log("📧 Email wysłany do klienta:", session.customer_email);
+
+          await brevoApi.sendTransacEmail(sendToOwner);
+          console.log(
+            "📧 Email wysłany do właściciela: wavetrace.music@gmail.com"
+          );
         } catch (emailErr) {
           console.error("❌ Błąd wysyłki maila:", emailErr);
         }
