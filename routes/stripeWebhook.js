@@ -2,6 +2,7 @@ import express from "express";
 import Stripe from "stripe";
 import { getDB } from "../db/mongoClient.js";
 import SibApiV3Sdk from "@sendinblue/client";
+import { generateSoldPdf } from "../musicLicense/licenseGenerator.js";
 
 const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -11,6 +12,8 @@ brevoApi.setApiKey(
   SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey,
   process.env.BREVO_API_KEY
 );
+
+const pdfBuffer = await generateSoldPdf();
 
 router.post(
   "/stripe-webhook",
@@ -58,6 +61,14 @@ router.post(
           textContent: `Thank you for your purchase!\n\nYou can download your track here:\n${
             /* session.metadata.hQUrl */ "*LINK*"
           }\n\nBest regards,\nWaveTrace`,
+          attachment: [
+            {
+              content: pdfBuffer.toString("base64"),
+              name: "receipt.pdf",
+              type: "application/pdf",
+              disposition: "attachment",
+            },
+          ],
         };
 
         const sendToOwner = {
