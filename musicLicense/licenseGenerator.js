@@ -32,7 +32,10 @@ export function generateLicensePdf({ trackTitle, clientEmail }) {
       .moveDown(1);
 
     // Sekcje licencji
-    doc.font("Helvetica-Bold").text("1. Grant of License").moveDown(0.2);
+    doc
+      .font("Helvetica-Bold")
+      .text("1. Grant of License", { align: "center" })
+      .moveDown(0.2);
     doc
       .font("Helvetica")
       .text(
@@ -54,12 +57,15 @@ export function generateLicensePdf({ trackTitle, clientEmail }) {
     doc
       .moveDown(0.2)
       .text(
-        "The Licensee may use, reproduce, modify, adapt, and distribute the Track in these contexts."
+        "The Licensee may use, reproduce, modify, adapt, and distribute the Track in these contexts and in any other commercial or creative projects."
       )
       .moveDown(1);
 
     // Restriction
-    doc.font("Helvetica-Bold").text("2. Restrictions").moveDown(0.2);
+    doc
+      .font("Helvetica-Bold")
+      .text("2. Restrictions", { align: "center" })
+      .moveDown(0.2);
     const restrictions = [
       "The Licensee may not resell or redistribute the Track as a standalone audio file.",
       "The Licensee may not claim authorship of the Track.",
@@ -69,7 +75,10 @@ export function generateLicensePdf({ trackTitle, clientEmail }) {
     doc.moveDown(1);
 
     // Ownership
-    doc.font("Helvetica-Bold").text("3. Ownership").moveDown(0.2);
+    doc
+      .font("Helvetica-Bold")
+      .text("3. Ownership", { align: "center" })
+      .moveDown(0.2);
     doc
       .font("Helvetica")
       .text(
@@ -80,7 +89,9 @@ export function generateLicensePdf({ trackTitle, clientEmail }) {
     // Warranty
     doc
       .font("Helvetica-Bold")
-      .text("4. Warranty Disclaimer & Limitation of Liability")
+      .text("4. Warranty Disclaimer & Limitation of Liability", {
+        align: "center",
+      })
       .moveDown(0.2);
     doc
       .font("Helvetica")
@@ -88,16 +99,11 @@ export function generateLicensePdf({ trackTitle, clientEmail }) {
         "The Track is provided “as-is.” Wavetrace makes no warranties regarding the Track’s fitness for a particular purpose. Wavetrace shall not be liable for any direct, indirect, incidental, or consequential damages arising from the Licensee’s use of the Track."
       )
       .moveDown(1);
-
-    // Term
-    doc.font("Helvetica-Bold").text("5. Term").moveDown(0.2);
-    doc
-      .font("Helvetica")
-      .text("This license is perpetual and does not expire.")
-      .moveDown(1);
-
     // Governing Law
-    doc.font("Helvetica-Bold").text("6. Governing Law").moveDown(0.2);
+    doc
+      .font("Helvetica-Bold")
+      .text("5. Governing Law", { align: "center" })
+      .moveDown(0.2);
     doc
       .font("Helvetica")
       .text(
@@ -106,10 +112,12 @@ export function generateLicensePdf({ trackTitle, clientEmail }) {
       .moveDown(1);
 
     // Miscellaneous
-    doc.font("Helvetica-Bold").text("7. Miscellaneous").moveDown(0.2);
+    doc
+      .font("Helvetica-Bold")
+      .text("6. Miscellaneous", { align: "center" })
+      .moveDown(0.2);
     const misc = [
       "This license represents the entire agreement between Wavetrace and the Licensee regarding the Track.",
-      "Any amendments to this license must be in writing and signed by both parties.",
       "By using the Track, the Licensee agrees to the terms outlined in this license.",
     ];
     misc.forEach((item) => doc.text(`- ${item}`));
