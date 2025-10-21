@@ -13,7 +13,10 @@ brevoApi.setApiKey(
   process.env.BREVO_API_KEY
 );
 
-const pdfBuffer = await generateSoldPdf();
+const pdfBuffer = await generateLicensePdf({
+  trackTitle: session.metadata.title,
+  clientEmail: session.customer_email,
+});
 
 router.post(
   "/stripe-webhook",
@@ -64,7 +67,7 @@ router.post(
           attachment: [
             {
               content: pdfBuffer.toString("base64"),
-              name: "receipt.pdf",
+              name: `License_${session.metadata.title}.pdf`,
               type: "application/pdf",
               disposition: "attachment",
             },
