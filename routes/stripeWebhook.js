@@ -13,11 +13,6 @@ brevoApi.setApiKey(
   process.env.BREVO_API_KEY
 );
 
-const pdfBuffer = await generateLicensePdf({
-  trackTitle: session.metadata.title,
-  clientEmail: session.customer_email,
-});
-
 router.post(
   "/stripe-webhook",
   express.raw({ type: "application/json" }),
@@ -48,6 +43,11 @@ router.post(
         });
 
         console.log("💾 Zapisano nową sprzedaż:", session.metadata.title);
+
+        const pdfBuffer = await generateLicensePdf({
+          trackTitle: session.metadata.title,
+          clientEmail: session.customer_email,
+        });
 
         const sendToCustomer = {
           sender: {
