@@ -61,9 +61,7 @@ router.post(
             },
           ],
           subject: `Your purchase: ${session.metadata.title}`,
-          textContent: `Thank you for your purchase!\n\nYou can download your track here:\n${
-            /* session.metadata.hQUrl */ "*LINK*"
-          }\n\nBest regards,\nWaveTrace`,
+          textContent: `Thank you for your purchase!\n\nYou can download your track here:\n${session.metadata.hQUrl}\n\nBest regards,\nWaveTrace`,
           attachment: [
             {
               content: pdfBuffer.toString("base64"),
@@ -97,7 +95,11 @@ router.post(
             "📧 Email wysłany do właściciela: wavetrace.music@gmail.com"
           );
         } catch (emailErr) {
-          console.error("❌ Błąd wysyłki maila:", emailErr);
+          console.error("❌ Błąd wysyłki maila", {
+            message: emailErr.message,
+            status: emailErr.response?.statusCode,
+            body: emailErr.response?.body,
+          });
         }
       }
 
